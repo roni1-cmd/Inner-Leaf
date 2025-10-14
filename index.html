@@ -663,8 +663,11 @@
       background-color: #f44336;
     }
 
+    #page-content {
+      transition: opacity 0.3s ease-in-out;
+    }
+
     #loadingOverlay {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -676,10 +679,15 @@
       justify-content: center;
       z-index: 2000;
       padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
     }
 
     #loadingOverlay.active {
-      display: flex;
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .loading-container {
@@ -893,77 +901,79 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-left">
-      <button class="icon-button">
-        <span class="material-icons">menu</span>
-      </button>
-      <div class="logo">
-        <img src="/logo.png" alt="Meet Logo" style="width: 44px; height: 44px; border-radius: 12px;">
-        <span>Inner Leaf</span>
+  <div id="page-content">
+    <header class="header">
+      <div class="header-left">
+        <button class="icon-button">
+          <span class="material-icons">menu</span>
+        </button>
+        <div class="logo">
+          <img src="/logo.png" alt="Meet Logo" style="width: 44px; height: 44px; border-radius: 12px;">
+          <span>Inner Leaf</span>
+        </div>
       </div>
+      <div class="header-right">
+        <span class="time-display">2:08 PM • Tue, Oct 14</span>
+        <button class="icon-button">
+    </header>
+
+    <div class="main-layout">
+      <aside class="sidebar">
+        <nav>
+          <a href="#" class="nav-item active">
+            <span class="material-icons nav-icon">info</span>
+            <span>Purpose</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="material-icons nav-icon">description</span>
+            <span>Terms of Service</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="material-icons nav-icon">help</span>
+            <span>Ask Help</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <div class="hero-section">
+          <h1 class="hero-title">A safe space for everyone</h1>
+          <p class="hero-subtitle">Connect, collaborate, and celebrate from anywhere with Inner Leaf</p>
+
+          <div class="action-bar">
+            <div class="new-meeting-container">
+              <button class="new-meeting-icon-btn" id="newMeetingBtn">
+                <span class="material-icons">add</span>
+              </button>
+              <div class="new-meeting-label" onclick="document.getElementById('newMeetingBtn').click()">
+                New Room
+              </div>
+            </div>
+            <div class="code-input-wrapper">
+              <input type="text" class="code-input" id="joinCodeInput" placeholder="Enter a code or link">
+              <button class="join-btn" id="joinBtn">Join</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rooms-section" id="roomsSection">
+          <h3 class="rooms-header">Available Rooms</h3>
+          <div class="rooms-list" id="roomsList">
+            <div class="empty-state">
+              <div class="empty-state-icon">
+                <span class="material-icons" style="font-size: inherit;">video_call</span>
+              </div>
+              <div class="empty-state-text">No rooms yet. Create one to get started!</div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-    <div class="header-right">
-      <span class="time-display">2:08 PM • Tue, Oct 14</span>
-      <button class="icon-button">
-  </header>
 
-  <div class="main-layout">
-    <aside class="sidebar">
-      <nav>
-        <a href="#" class="nav-item active">
-          <span class="material-icons nav-icon">info</span>
-          <span>Purpose</span>
-        </a>
-        <a href="#" class="nav-item">
-          <span class="material-icons nav-icon">description</span>
-          <span>Terms of Service</span>
-        </a>
-        <a href="#" class="nav-item">
-          <span class="material-icons nav-icon">help</span>
-          <span>Ask Help</span>
-        </a>
-      </nav>
-    </aside>
-
-    <main class="content">
-      <div class="hero-section">
-        <h1 class="hero-title">A safe space for everyone</h1>
-        <p class="hero-subtitle">Connect, collaborate, and celebrate from anywhere with Inner Leaf</p>
-
-        <div class="action-bar">
-          <div class="new-meeting-container">
-            <button class="new-meeting-icon-btn" id="newMeetingBtn">
-              <span class="material-icons">add</span>
-            </button>
-            <div class="new-meeting-label" onclick="document.getElementById('newMeetingBtn').click()">
-              New Room
-            </div>
-          </div>
-          <div class="code-input-wrapper">
-            <input type="text" class="code-input" id="joinCodeInput" placeholder="Enter a code or link">
-            <button class="join-btn" id="joinBtn">Join</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="rooms-section" id="roomsSection">
-        <h3 class="rooms-header">Available Rooms</h3>
-        <div class="rooms-list" id="roomsList">
-          <div class="empty-state">
-            <div class="empty-state-icon">
-              <span class="material-icons" style="font-size: inherit;">diversity_3</span>
-            </div>
-            <div class="empty-state-text">No rooms yet. Create one to get started!</div>
-          </div>
-        </div>
-      </div>
-    </main>
+    <footer class="footer">
+      © 2025 Inner Leaf. All rights reserved.
+    </footer>
   </div>
-
-  <footer class="footer">
-    © 2025 Inner Leaf. All rights reserved.
-  </footer>
 
   <div class="modal" id="createRoomModal">
     <div class="modal-content">
@@ -1136,9 +1146,16 @@
         
         modal.classList.remove('active');
         
+        const pageContent = document.getElementById('page-content');
+        pageContent.style.opacity = '0';
+        
         setTimeout(() => {
-          window.location.href = `room.html?code=${currentRoomCode}`;
-        }, 500);
+          loadingOverlay.classList.add('active');
+          
+          setTimeout(() => {
+            window.location.href = `room.html?code=${currentRoomCode}`;
+          }, 3000);
+        }, 300);
         
       } catch (error) {
         console.error('[v0] Error creating room:', error);
@@ -1171,10 +1188,16 @@
         console.log('[v0] Checking if room exists:', roomSnap.exists());
         
         if (roomSnap.exists()) {
-          loadingOverlay.classList.add('active');
+          const pageContent = document.getElementById('page-content');
+          pageContent.style.opacity = '0';
+          
           setTimeout(() => {
-            window.location.href = `room.html?code=${formattedCode}`;
-          }, 3000); // 3 second delay
+            loadingOverlay.classList.add('active');
+            
+            setTimeout(() => {
+              window.location.href = `room.html?code=${formattedCode}`;
+            }, 3000);
+          }, 300);
         } else {
           showToast(`Room not found with code: ${formattedCode}. Please check the code and try again.`);
         }
@@ -1256,12 +1279,17 @@
 
     // Make joinRoom function global
     window.joinRoom = function(code) {
-      loadingOverlay.classList.add('active');
+      const pageContent = document.getElementById('page-content');
+      pageContent.style.opacity = '0';
+      
       setTimeout(() => {
-        window.location.href = `room.html?code=${code}`;
-      }, 3000); // 3 second delay
+        loadingOverlay.classList.add('active');
+        
+        setTimeout(() => {
+          window.location.href = `room.html?code=${code}`;
+        }, 3000);
+      }, 300);
     };
   </script>
 </body>
-
 </html>
