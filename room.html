@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Room - Google Meet Clone</title>
+  <title>Room</title>
+  <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
+    :root {
+      --app-height: 100vh;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -23,7 +28,7 @@
     }
 
     .room-container {
-      height: 100vh;
+      height: var(--app-height);
       display: flex;
       flex-direction: column;
     }
@@ -866,9 +871,16 @@
 
     const chatInput = document.getElementById('chatInput');
     const sendMessageBtn = document.getElementById('sendMessageBtn');
+    const chatMessages = document.getElementById('chatMessages');
 
     chatInput.addEventListener('input', () => {
       sendMessageBtn.disabled = !chatInput.value.trim();
+    });
+
+    chatInput.addEventListener('focus', () => {
+      setTimeout(() => {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 200);
     });
 
     async function sendMessage() {
@@ -940,6 +952,14 @@
     closeSidebarBtn.addEventListener('click', () => {
       participantsSidebar.classList.remove('active');
     });
+
+    // Fix for mobile keyboard covering input
+    function setAppHeight() {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    }
+
+    window.addEventListener('resize', setAppHeight);
+    setAppHeight();
 
     init();
   </script>
