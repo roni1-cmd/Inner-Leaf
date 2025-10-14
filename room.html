@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Room - Google Meet Clone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #ffffff;
+      color: #202124;
+      overflow: hidden;
+    }
+
+    .room-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .room-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .room-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .room-name {
+      font-size: 20px;
+      font-weight: 500;
+      color: #202124;
+    }
+
+    .room-code-badge {
+      background-color: #B8D8C4;
+      color: #4F8372;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      transition: background-color 0.2s;
+    }
+
+    .icon-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .leave-btn {
+      background-color: #ea4335;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .leave-btn:hover {
+      background-color: #d33b2c;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message-group {
+      display: flex;
+      gap: 12px;
+      max-width: 70%;
+    }
+
+    .message-group.own-message {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-group.other-message {
+      align-self: flex-start;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      background-color: #f1f3f4;
+    }
+
+    .message-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .message-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .message-author {
+      font-size: 14px;
+      font-weight: 500;
+      color: #202124;
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #5f6368;
+    }
+
+    .message-text {
+      font-size: 14px;
+      color: #3c4043;
+      line-height: 1.5;
+      background-color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      word-wrap: break-word;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .message-group.own-message .message-text {
+      background-color: #4F8372;
+      color: #ffffff;
+    }
+
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      gap: 12px;
+    }
+
+    .empty-state .material-icons {
+      font-size: 64px;
+      color: #A9CDB6;
+    }
+
+    .empty-state-text {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .chat-input-container {
+      padding: 16px 24px;
+      background-color: #ffffff;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #dadce0;
+      border-radius: 24px;
+      background-color: #f8f9fa;
+      color: #202124;
+      font-size: 14px;
+      font-family: 'Google Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: #4F8372;
+      background-color: #ffffff;
+    }
+
+    .chat-send-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background-color: #4F8372;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+
+    .chat-send-btn:hover {
+      background-color: #3d6b5c;
+    }
+
+    .chat-send-btn:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    .participants-sidebar {
+      width: 300px;
+      background-color: #ffffff;
+      border-left: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #202124;
+    }
+
+    .sidebar-close-btn {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      transition: background-color 0.2s;
+    }
+
+    .sidebar-close-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    /* Redesigned participants list with better styling and avatars */
+    .participants-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .participant-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+      cursor: pointer;
+    }
+
+    .participant-item:hover {
+      background-color: #f8f9fa;
+    }
+
+    .participant-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      background-color: #f1f3f4;
+    }
+
+    .participant-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .participant-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .participant-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #202124;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .participant-status {
+      font-size: 12px;
+      color: #5f6368;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #34a853;
+    }
+
+    .participant-you-badge {
+      background-color: #B8D8C4;
+      color: #4F8372;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #3c4043;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #5f6368;
+      padding: 8px;
+      border-radius: 50%;
+    }
+
+    .close-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      color: #5f6368;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #4F8372;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      padding: 10px 24px;
+      background: transparent;
+      color: #4F8372;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f1f3f4;
+    }
+
+    .btn-primary {
+      padding: 10px 24px;
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .btn-primary:hover {
+      background-color: #3d6b5c;
+    }
+
+    .btn-primary:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 12px 24px;
+      border-radius: 4px;
+      color: white;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1001;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    .toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-error {
+      background-color: #f44336;
+    }
+
+    @media (max-width: 768px) {
+      .participants-sidebar {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        max-width: 320px;
+        z-index: 100;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .participants-sidebar.active {
+        right: 0;
+      }
+
+      .sidebar-close-btn {
+        display: flex;
+      }
+
+      .room-header {
+        padding: 12px 16px;
+      }
+
+      .room-name {
+        font-size: 16px;
+      }
+
+      .chat-messages {
+        padding: 16px;
+      }
+
+      .chat-input-container {
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="room-container">
+    <header class="room-header">
+      <div class="room-info">
+        <div class="room-name" id="roomName">Loading...</div>
+        <div class="room-code-badge">
+          <span class="material-icons" style="font-size: 14px;">link</span>
+          <span id="roomCodeDisplay">IL-XXX-XXX</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="participantsBtn" title="Show participants">
+          <span class="material-icons">people</span>
+        </button>
+        <button class="leave-btn" id="leaveBtn">
+          <span class="material-icons" style="font-size: 18px;">exit_to_app</span>
+          Leave
+        </button>
+      </div>
+    </header>
+
+    <div class="chat-container">
+      <div class="chat-main">
+        <div class="chat-messages" id="chatMessages">
+          <div class="empty-state">
+            <span class="material-icons">chat_bubble_outline</span>
+            <div class="empty-state-text">No messages yet. Start the conversation!</div>
+          </div>
+        </div>
+        <div class="chat-input-container">
+          <input 
+            type="text" 
+            class="chat-input" 
+            id="chatInput" 
+            placeholder="Type a message..."
+            maxlength="500"
+          >
+          <button class="chat-send-btn" id="sendMessageBtn" disabled>
+            <span class="material-icons" style="font-size: 20px;">send</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="participants-sidebar" id="participantsSidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">Participants (<span id="participantCount">0</span>)</div>
+          <button class="sidebar-close-btn" id="closeSidebarBtn">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="participants-list" id="participantsList">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="nameModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Enter your name</h2>
+      <div class="form-group">
+        <input type="text" class="form-input" id="nameInput" placeholder="Your name">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" id="submitName">Join</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Leave room</h2>
+      <p>Are you sure you want to leave this room?</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelLeave">Cancel</button>
+        <button class="btn-primary" id="confirmLeave">Leave</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCs7aoF-5GqpxooJdCf8n8n29D7rwClkJA",
+      authDomain: "chat-app-8a369.firebaseapp.com",
+      projectId: "chat-app-8a369",
+      storageBucket: "chat-app-8a369.firebasestorage.app",
+      messagingSenderId: "1083403621627",
+      appId: "1:1083403621627:web:d577aa20af22ead8c10c5e",
+      measurementId: "G-2Z02GL6PSL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get('code');
+
+    if (!roomCode) {
+      showToast('No room code provided');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2000);
+    }
+
+    document.getElementById('roomCodeDisplay').textContent = roomCode;
+
+    const storageKey = `room_${roomCode}_user`;
+    let currentUser = localStorage.getItem(storageKey);
+
+    let roomData = null;
+    let lastMessageCount = 0;
+
+    // Toast function
+    function showToast(message, type = 'error', duration = 3000) {
+      const toast = document.createElement('div');
+      toast.classList.add('toast', `toast-${type}`);
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('active');
+      }, 10);
+      
+      setTimeout(() => {
+        toast.classList.remove('active');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, duration);
+    }
+
+    async function init() {
+      if (!currentUser) {
+        const nameModal = document.getElementById('nameModal');
+        const nameInput = document.getElementById('nameInput');
+        const submitName = document.getElementById('submitName');
+
+        nameModal.classList.add('active');
+        nameInput.focus();
+
+        submitName.addEventListener('click', () => {
+          currentUser = nameInput.value.trim() || 'Anonymous';
+          localStorage.setItem(storageKey, currentUser);
+          nameModal.classList.remove('active');
+          loadRoom();
+        });
+
+        nameInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            submitName.click();
+          }
+        });
+      } else {
+        loadRoom();
+      }
+    }
+
+    async function loadRoom() {
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        const roomSnap = await getDoc(roomRef);
+
+        if (roomSnap.exists()) {
+          roomData = roomSnap.data();
+          document.getElementById('roomName').textContent = roomData.name || 'Chat Room';
+          
+          if (!roomData.participants || !roomData.participants.includes(currentUser)) {
+            await updateDoc(roomRef, {
+              participants: arrayUnion(currentUser)
+            });
+          }
+
+          onSnapshot(roomRef, (doc) => {
+            if (doc.exists()) {
+              const data = doc.data();
+              updateParticipants(data.participants || []);
+              updateMessages(data.messages || []);
+            }
+          });
+        } else {
+          showToast(`Room not found with code: ${roomCode}. Please check the code and try again.`);
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Error loading room:', error);
+        showToast(`Error loading room: ${error.message}`);
+      }
+    }
+
+    function updateParticipants(participants) {
+      const participantsList = document.getElementById('participantsList');
+      const participantCount = document.getElementById('participantCount');
+      
+      participantCount.textContent = participants.length;
+      
+      participantsList.innerHTML = participants.map(name => {
+        const isCurrentUser = name === currentUser;
+        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+        
+        return `
+          <div class="participant-item">
+            <div class="participant-avatar">
+              <img src="${avatarUrl}" alt="${name}">
+            </div>
+            <div class="participant-info">
+              <div class="participant-name">
+                ${name}
+                ${isCurrentUser ? '<span class="participant-you-badge">You</span>' : ''}
+              </div>
+              <div class="participant-status">
+                <span class="status-indicator"></span>
+                Active now
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function createMessageElement(msg, isOwnMessage) {
+      const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit' 
+      }) : 'Just now';
+
+      const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(msg.author)}`;
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message-group ${isOwnMessage ? 'own-message' : 'other-message'}`;
+      messageDiv.style.animation = 'slideIn 0.3s ease';
+      
+      messageDiv.innerHTML = `
+        <div class="message-avatar">
+          <img src="${avatarUrl}" alt="${msg.author}">
+        </div>
+        <div class="message-content">
+          <div class="message-header">
+            <span class="message-author">${msg.author}</span>
+            <span class="message-time">${time}</span>
+          </div>
+          <div class="message-text">${msg.text}</div>
+        </div>
+      `;
+
+      return messageDiv;
+    }
+
+    function updateMessages(messages) {
+      const chatMessages = document.getElementById('chatMessages');
+      chatMessages.innerHTML = '';
+
+      // Add preamble if no messages or always as first
+      const preamble = {
+        author: 'Ron Asnahon',
+        text: 'Welcome to this pilot testing session for our Information, Education, and Communication (IEC) program. To ensure a productive and respectful environment, we kindly request that all participants maintain the highest standards of professionalism in their communications. This includes using appropriate language, remaining on-topic, respecting diverse viewpoints, and avoiding any form of harassment or disruptive behavior. Your cooperation is essential to the success of this initiative. Thank you for your participation.',
+        timestamp: Date.now()
+      };
+      chatMessages.appendChild(createMessageElement(preamble, false));
+
+      // Add actual messages
+      messages.forEach(msg => {
+        const isOwnMessage = msg.author === currentUser;
+        chatMessages.appendChild(createMessageElement(msg, isOwnMessage));
+      });
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      lastMessageCount = messages.length;
+    }
+
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+
+    chatInput.addEventListener('input', () => {
+      sendMessageBtn.disabled = !chatInput.value.trim();
+    });
+
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        await updateDoc(roomRef, {
+          messages: arrayUnion({
+            author: currentUser,
+            text: message,
+            timestamp: Date.now()
+          })
+        });
+
+        chatInput.value = '';
+        sendMessageBtn.disabled = true;
+      } catch (error) {
+        console.error('Error sending message:', error);
+        showToast('Failed to send message');
+      }
+    }
+
+    sendMessageBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    const leaveBtn = document.getElementById('leaveBtn');
+    const confirmModal = document.getElementById('confirmModal');
+    const cancelLeave = document.getElementById('cancelLeave');
+    const confirmLeave = document.getElementById('confirmLeave');
+
+    leaveBtn.addEventListener('click', () => {
+      confirmModal.classList.add('active');
+    });
+
+    cancelLeave.addEventListener('click', () => {
+      confirmModal.classList.remove('active');
+    });
+
+    confirmLeave.addEventListener('click', async () => {
+      confirmModal.classList.remove('active');
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        await updateDoc(roomRef, {
+          participants: arrayRemove(currentUser)
+        });
+        localStorage.removeItem(storageKey);
+      } catch (error) {
+        console.error('Error leaving room:', error);
+        showToast('Error leaving room');
+      }
+      window.location.href = 'index.html';
+    });
+
+    const participantsBtn = document.getElementById('participantsBtn');
+    const participantsSidebar = document.getElementById('participantsSidebar');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+    participantsBtn.addEventListener('click', () => {
+      participantsSidebar.classList.toggle('active');
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+      participantsSidebar.classList.remove('active');
+    });
+
+    init();
+  </script>
+</body>
+</html>

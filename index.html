@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inner Leaf</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #ffffff;
+      color: #3c4043;
+      /* Hide scrollbar */
+      overflow: overlay;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Hide scrollbar for all browsers */
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+
+    * {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* Removed border-bottom from header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: white;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .menu-icon span {
+      width: 20px;
+      height: 2px;
+      background-color: #5f6368;
+      border-radius: 2px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      color: #3c4043;
+      font-weight: 500;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: #4F8372;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 22px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .time-display {
+      color: #5f6368;
+      font-size: 14px;
+      min-width: 180px;
+      font-weight: 500;
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      font-size: 20px;
+      transition: background 0.2s;
+    }
+
+    .icon-button:hover {
+      background: #f1f3f4;
+    }
+
+    .material-icons {
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .profile-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #4F8372;
+      cursor: pointer;
+      border: 2px solid #e8eaed;
+    }
+
+    .main-layout {
+      display: flex;
+      flex: 1;
+    }
+
+    /* Made sidebar a proper navigation element */
+    .sidebar {
+      width: 256px;
+      padding: 8px;
+      border-right: 1px solid #e8eaed;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #3c4043;
+      margin-bottom: 4px;
+      text-decoration: none;
+    }
+
+    .nav-item.active {
+      background-color: #B8D8C4;
+      color: #4F8372;
+      font-weight: 500;
+    }
+
+    .nav-item:hover:not(.active) {
+      background-color: #f1f3f4;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px;
+      overflow-y: auto;
+    }
+
+    .hero-section {
+      max-width: 1200px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 400;
+      color: #3c4043;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #5f6368;
+      margin-bottom: 48px;
+      font-weight: 400;
+    }
+
+    /* Split button design with circular icon and separate text container */
+    .action-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+    }
+
+    .new-meeting-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .new-meeting-icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(79, 131, 114, 0.3);
+      transition: all 0.2s;
+    }
+
+    .new-meeting-icon-btn:hover {
+      background-color: #3d6b5c;
+      box-shadow: 0 4px 12px rgba(79, 131, 114, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .new-meeting-icon-btn .material-icons {
+      font-size: 24px;
+    }
+
+    .new-meeting-label {
+      padding: 12px 24px;
+      background-color: #B8D8C4;
+      color: #4F8372;
+      border-radius: 24px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .new-meeting-label:hover {
+      background-color: #A9CDB6;
+    }
+
+    .code-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: white;
+      border: 2px solid #e8eaed;
+      border-radius: 24px;
+      padding: 4px;
+      transition: border-color 0.2s;
+    }
+
+    .code-input-wrapper:focus-within {
+      border-color: #4F8372;
+    }
+
+    .code-input {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      width: 240px;
+      font-family: 'Google Sans', sans-serif;
+      background: transparent;
+    }
+
+    .code-input:focus {
+      outline: none;
+    }
+
+    .join-btn {
+      padding: 10px 24px;
+      background: transparent;
+      color: #4F8372;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .join-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .illustration-section {
+      position: relative;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .carousel-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid #dadce0;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #5f6368;
+    }
+
+    .carousel-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .illustration {
+      width: 400px;
+      height: 300px;
+      background: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-rUFgZPb1B1XvG2umikCfShuXf8A0Uu.png') center/contain no-repeat;
+    }
+
+    .bottom-section {
+      text-align: center;
+    }
+
+    .bottom-title {
+      font-size: 28px;
+      color: #3c4043;
+      font-weight: 400;
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 600px;
+      height: 1px;
+      background-color: #e8eaed;
+      margin: 32px auto;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #3c4043;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #5f6368;
+      padding: 8px;
+      border-radius: 50%;
+    }
+
+    .close-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      color: #5f6368;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #4F8372;
+    }
+
+    .room-code-display {
+      background-color: #B8D8C4;
+      padding: 16px;
+      border-radius: 4px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .room-code-label {
+      font-size: 12px;
+      color: #4F8372;
+      margin-bottom: 4px;
+    }
+
+    .room-code-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4F8372;
+      letter-spacing: 2px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      padding: 10px 24px;
+      background: transparent;
+      color: #4F8372;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f1f3f4;
+    }
+
+    .btn-primary {
+      padding: 10px 24px;
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .btn-primary:hover {
+      background-color: #3d6b5c;
+    }
+
+    .btn-primary:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    .rooms-section {
+      width: 100%;
+      max-width: 800px;
+      margin: 48px auto 0;
+    }
+
+    .rooms-header {
+      font-size: 20px;
+      font-weight: 500;
+      color: #3c4043;
+      margin-bottom: 16px;
+      padding: 0 8px;
+    }
+
+    .rooms-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .room-card {
+      background: white;
+      border: 1px solid #e8eaed;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow 0.2s;
+    }
+
+    .room-card:hover {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+
+    .room-info {
+      flex: 1;
+    }
+
+    .room-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: #3c4043;
+      margin-bottom: 4px;
+    }
+
+    .room-details {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      color: #5f6368;
+    }
+
+    .room-code {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+      color: #4F8372;
+    }
+
+    .room-time {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .room-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-join {
+      padding: 8px 20px;
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .btn-join:hover {
+      background-color: #3d6b5c;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #5f6368;
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      color: #dadce0;
+      margin-bottom: 16px;
+    }
+
+    .empty-state-text {
+      font-size: 16px;
+    }
+
+    .footer {
+      background: white;
+      border-top: 1px solid #e8eaed;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 14px;
+      color: #5f6368;
+      flex-shrink: 0;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 12px 24px;
+      border-radius: 4px;
+      color: white;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1001;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    .toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-error {
+      background-color: #f44336;
+    }
+
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #1f1f1f;
+      color: #ffffff;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 24px;
+    }
+
+    #loadingOverlay.active {
+      display: flex;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .loading-illustration {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .message-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(184, 216, 196, 0.3);
+      border-top-color: #B8D8C4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .message-text {
+      font-size: 18px;
+      font-weight: 400;
+      color: #e8eaed;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 16px;
+      }
+
+      .header-left .logo span {
+        display: none;
+      }
+
+      .header-right {
+        gap: 8px;
+      }
+
+      .time-display {
+        display: none;
+      }
+
+      .icon-button {
+        width: 36px;
+        height: 36px;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: -256px;
+        top: 64px;
+        height: calc(100vh - 64px);
+        background: white;
+        z-index: 100;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .content {
+        padding: 24px 16px;
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+      }
+
+      .action-bar {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .new-meeting-container {
+        width: 100%;
+        max-width: 400px;
+        justify-content: center;
+      }
+
+      .code-input-wrapper {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+      }
+
+      .code-input {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .join-btn {
+        flex-shrink: 0;
+      }
+
+      /* Fixed features section for mobile */
+      .illustration-section {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .illustration {
+        width: 100%;
+        max-width: 300px;
+        height: 250px;
+      }
+
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .bottom-title {
+        font-size: 22px;
+      }
+
+      .modal-content {
+        padding: 20px;
+      }
+
+      .rooms-section {
+        margin-top: 32px;
+      }
+
+      .room-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .room-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .room-actions {
+        width: 100%;
+      }
+
+      .btn-join {
+        width: 100%;
+      }
+
+      .loading-container {
+        gap: 32px;
+      }
+
+      .loading-illustration {
+        max-width: 300px;
+      }
+
+      .message-text {
+        font-size: 16px;
+      }
+
+      .message-container {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 24px;
+      }
+
+      .hero-subtitle {
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+
+      .illustration {
+        height: 200px;
+      }
+
+      .code-input {
+        padding: 10px 16px;
+      }
+
+      .join-btn {
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <button class="icon-button">
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="logo">
+        <img src="/logo.png" alt="Meet Logo" style="width: 44px; height: 44px; border-radius: 12px;">
+        <span>Inner Leaf</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="time-display">2:08 PM • Tue, Oct 14</span>
+      <button class="icon-button">
+  </header>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <nav>
+        <a href="#" class="nav-item active">
+          <span class="material-icons nav-icon">info</span>
+          <span>Purpose</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="material-icons nav-icon">description</span>
+          <span>Terms of Service</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="material-icons nav-icon">help</span>
+          <span>Ask Help</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="hero-section">
+        <h1 class="hero-title">A safe space for everyone</h1>
+        <p class="hero-subtitle">Connect, collaborate, and celebrate from anywhere with Inner Leaf</p>
+
+        <div class="action-bar">
+          <div class="new-meeting-container">
+            <button class="new-meeting-icon-btn" id="newMeetingBtn">
+              <span class="material-icons">add</span>
+            </button>
+            <div class="new-meeting-label" onclick="document.getElementById('newMeetingBtn').click()">
+              New Room
+            </div>
+          </div>
+          <div class="code-input-wrapper">
+            <input type="text" class="code-input" id="joinCodeInput" placeholder="Enter a code or link">
+            <button class="join-btn" id="joinBtn">Join</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rooms-section" id="roomsSection">
+        <h3 class="rooms-header">Available Rooms</h3>
+        <div class="rooms-list" id="roomsList">
+          <div class="empty-state">
+            <div class="empty-state-icon">
+              <span class="material-icons" style="font-size: inherit;">video_call</span>
+            </div>
+            <div class="empty-state-text">No rooms yet. Create one to get started!</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    © 2025 Inner Leaf. All rights reserved.
+  </footer>
+
+  <div class="modal" id="createRoomModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Create a new room</h2>
+        <button class="close-btn" id="closeModalBtn">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      
+      <div class="room-code-display">
+        <div class="room-code-label">Your room code</div>
+        <div class="room-code-value" id="generatedCode">IL-XXX-XXX</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="roomName">Room name (optional)</label>
+        <input type="text" class="form-input" id="roomName" placeholder="Enter meeting name">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="createRoomBtn">Create meeting</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadingOverlay">
+    <div class="loading-container">
+      <img 
+        src="/wait.png" 
+        alt="Waiting illustration" 
+        class="loading-illustration"
+      >
+      
+      <div class="message-container">
+        <div class="spinner"></div>
+        <p class="message-text">Please wait until redirected to your room...</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, setDoc, doc, query, orderBy, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCs7aoF-5GqpxooJdCf8n8n29D7rwClkJA",
+      authDomain: "chat-app-8a369.firebaseapp.com",
+      projectId: "chat-app-8a369",
+      storageBucket: "chat-app-8a369.firebasestorage.app",
+      messagingSenderId: "1083403621627",
+      appId: "1:1083403621627:web:d577aa20af22ead8c10c5e",
+      measurementId: "G-2Z02GL6PSL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Real-time clock update
+    function updateTime() {
+      const now = new Date();
+      const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+      
+      const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+      const dateStr = now.toLocaleDateString('en-US', dateOptions);
+      
+      document.querySelector('.time-display').textContent = `${timeStr} • ${dateStr}`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Generate room code with IL prefix
+    function generateRoomCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = 'IL-';
+      
+      for (let i = 0; i < 3; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      
+      code += '-';
+      
+      for (let i = 0; i < 3; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      
+      return code;
+    }
+
+    // Toast function
+    function showToast(message, type = 'error', duration = 3000) {
+      const toast = document.createElement('div');
+      toast.classList.add('toast', `toast-${type}`);
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('active');
+      }, 10);
+      
+      setTimeout(() => {
+        toast.classList.remove('active');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, duration);
+    }
+
+    // Modal controls
+    const modal = document.getElementById('createRoomModal');
+    const newMeetingBtn = document.getElementById('newMeetingBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    const generatedCodeEl = document.getElementById('generatedCode');
+    const roomNameInput = document.getElementById('roomName');
+    const joinCodeInput = document.getElementById('joinCodeInput');
+    const joinBtn = document.getElementById('joinBtn');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    let currentRoomCode = '';
+
+    newMeetingBtn.addEventListener('click', () => {
+      currentRoomCode = generateRoomCode();
+      generatedCodeEl.textContent = currentRoomCode;
+      roomNameInput.value = '';
+      modal.classList.add('active');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Create room in Firebase
+    createRoomBtn.addEventListener('click', async () => {
+      const roomName = roomNameInput.value.trim() || 'Untitled Meeting';
+      
+      try {
+        createRoomBtn.disabled = true;
+        createRoomBtn.textContent = 'Creating...';
+
+        console.log('[v0] Creating room with code:', currentRoomCode);
+
+        const roomData = {
+          code: currentRoomCode,
+          name: roomName,
+          createdAt: new Date().toISOString(),
+          participants: [],
+          messages: []
+        };
+
+        console.log('[v0] Room data:', roomData);
+
+        await setDoc(doc(db, 'rooms', currentRoomCode), roomData);
+        
+        console.log('[v0] Room created successfully in Firestore');
+        
+        modal.classList.remove('active');
+        
+        setTimeout(() => {
+          window.location.href = `room.html?code=${currentRoomCode}`;
+        }, 500);
+        
+      } catch (error) {
+        console.error('[v0] Error creating room:', error);
+        console.error('[v0] Error details:', error.message, error.code);
+        showToast('Failed to create meeting. Please try again.');
+        createRoomBtn.disabled = false;
+        createRoomBtn.textContent = 'Create meeting';
+      }
+    });
+
+    // Join room functionality
+    joinBtn.addEventListener('click', async () => {
+      const code = joinCodeInput.value.trim().toUpperCase();
+      
+      if (!code) {
+        showToast('Please enter a meeting code');
+        return;
+      }
+
+      console.log('[v0] Original code entered:', code);
+
+      // Allow joining with or without IL- prefix
+      const formattedCode = code.startsWith('IL-') ? code : `IL-${code}`;
+      console.log('[v0] Formatted code:', formattedCode);
+
+      try {
+        const roomRef = doc(db, 'rooms', formattedCode);
+        const roomSnap = await getDoc(roomRef);
+        
+        console.log('[v0] Checking if room exists:', roomSnap.exists());
+        
+        if (roomSnap.exists()) {
+          loadingOverlay.classList.add('active');
+          setTimeout(() => {
+            window.location.href = `room.html?code=${formattedCode}`;
+          }, 3000); // 3 second delay
+        } else {
+          showToast(`Room not found with code: ${formattedCode}. Please check the code and try again.`);
+        }
+      } catch (error) {
+        console.error('[v0] Error checking room:', error);
+        showToast('Error checking room. Please try again.');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.icon-button');
+    const sidebar = document.querySelector('.sidebar');
+    
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    // Real-time listener for rooms
+    function formatTimeAgo(timestamp) {
+      const now = new Date();
+      const created = new Date(timestamp);
+      const diffMs = now - created;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return `${diffMins} min ago`;
+      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    }
+
+    function renderRooms(rooms) {
+      const roomsList = document.getElementById('roomsList');
+      
+      if (rooms.length === 0) {
+        roomsList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">
+              <span class="material-icons" style="font-size: inherit;">video_call</span>
+            </div>
+            <div class="empty-state-text">No meetings yet. Create one to get started!</div>
+          </div>
+        `;
+        return;
+      }
+
+      roomsList.innerHTML = rooms.map(room => `
+        <div class="room-card">
+          <div class="room-info">
+            <div class="room-name">${room.name}</div>
+            <div class="room-details">
+              <div class="room-code">
+                <span class="material-icons" style="font-size: 16px;">link</span>
+                <span>${room.code}</span>
+              </div>
+              <div class="room-time">
+                <span class="material-icons" style="font-size: 16px;">schedule</span>
+                <span>${formatTimeAgo(room.createdAt)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="room-actions">
+            <button class="btn-join" onclick="joinRoom('${room.code}')">Join</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Listen for real-time updates
+    const roomsQuery = query(collection(db, 'rooms'), orderBy('createdAt', 'desc'));
+    onSnapshot(roomsQuery, (snapshot) => {
+      const rooms = [];
+      snapshot.forEach((doc) => {
+        rooms.push({ id: doc.id, ...doc.data() });
+      });
+      renderRooms(rooms);
+    });
+
+    // Make joinRoom function global
+    window.joinRoom = function(code) {
+      loadingOverlay.classList.add('active');
+      setTimeout(() => {
+        window.location.href = `room.html?code=${code}`;
+      }, 3000); // 3 second delay
+    };
+  </script>
+</body>
+</html>
