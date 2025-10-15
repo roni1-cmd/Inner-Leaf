@@ -146,6 +146,31 @@
       align-self: flex-start;
     }
 
+    .message-group.preamble-message {
+      max-width: 85%;
+      align-self: center;
+      background-color: #fff3cd;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #4F8372;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-group.preamble-message .message-text {
+      background-color: transparent;
+      box-shadow: none;
+      padding: 0;
+      color: #856404;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .message-group.preamble-message .message-author {
+      color: #4F8372;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -265,6 +290,77 @@
       text-align: center;
     }
 
+    /* Skeleton Loading Styles */
+    .skeleton-loader {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .skeleton-message {
+      display: flex;
+      gap: 12px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .skeleton-header {
+      width: 120px;
+      height: 14px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-text {
+      width: 100%;
+      max-width: 300px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-text.short {
+      max-width: 200px;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+
     .chat-input-container {
       padding: 16px 24px;
       background-color: #ffffff;
@@ -355,7 +451,6 @@
       background-color: #f1f3f4;
     }
 
-    /* Redesigned participants list with better styling and avatars */
     .participants-list {
       flex: 1;
       overflow-y: auto;
@@ -624,6 +719,10 @@
       .chat-input-container {
         padding: 12px 16px;
       }
+
+      .message-group.preamble-message {
+        max-width: 95%;
+      }
     }
   </style>
 </head>
@@ -651,9 +750,28 @@
     <div class="chat-container">
       <div class="chat-main">
         <div class="chat-messages" id="chatMessages">
-          <div class="empty-state">
-            <span class="material-icons">chat_bubble_outline</span>
-            <div class="empty-state-text">No messages yet. Start the conversation!</div>
+          <div class="skeleton-loader">
+            <div class="skeleton-message">
+              <div class="skeleton-avatar"></div>
+              <div class="skeleton-content">
+                <div class="skeleton-header"></div>
+                <div class="skeleton-text"></div>
+              </div>
+            </div>
+            <div class="skeleton-message">
+              <div class="skeleton-avatar"></div>
+              <div class="skeleton-content">
+                <div class="skeleton-header"></div>
+                <div class="skeleton-text short"></div>
+              </div>
+            </div>
+            <div class="skeleton-message">
+              <div class="skeleton-avatar"></div>
+              <div class="skeleton-content">
+                <div class="skeleton-header"></div>
+                <div class="skeleton-text"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="chat-input-container">
@@ -708,7 +826,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCs7aoF-5GqpxooJdCf8n8n29D7rwClkJA",
@@ -855,7 +973,7 @@
       }).join('');
     }
 
-    function createMessageElement(msg, isOwnMessage) {
+    function createMessageElement(msg, isOwnMessage, isPreamble = false) {
       const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('en-US', { 
         hour: 'numeric', 
         minute: '2-digit' 
@@ -864,31 +982,51 @@
       const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(msg.author)}`;
       
       const messageDiv = document.createElement('div');
-      messageDiv.className = `message-group ${isOwnMessage ? 'own-message' : 'other-message'}`;
-      messageDiv.style.animation = 'slideIn 0.3s ease';
       
-      messageDiv.innerHTML = `
-        <div class="message-avatar">
-          <img src="${avatarUrl}" alt="${msg.author}">
-        </div>
-        <div class="message-content">
-          <div class="message-header">
-            <span class="message-author">${msg.author}</span>
-            <span class="message-time">${time}</span>
+      if (isPreamble) {
+        messageDiv.className = 'message-group preamble-message';
+        messageDiv.style.animation = 'slideIn 0.3s ease';
+        messageDiv.innerHTML = `
+          <div class="message-content">
+            <div class="message-header">
+              <span class="message-author">${msg.author}</span>
+              <span class="message-time">${time}</span>
+            </div>
+            <div class="message-text">${msg.text}</div>
           </div>
-          <div class="message-text">${msg.text}</div>
-        </div>
-      `;
+        `;
+      } else {
+        messageDiv.className = `message-group ${isOwnMessage ? 'own-message' : 'other-message'}`;
+        messageDiv.style.animation = 'slideIn 0.3s ease';
+        messageDiv.innerHTML = `
+          <div class="message-avatar">
+            <img src="${avatarUrl}" alt="${msg.author}">
+          </div>
+          <div class="message-content">
+            <div class="message-header">
+              <span class="message-author">${msg.author}</span>
+              <span class="message-time">${time}</span>
+            </div>
+            <div class="message-text">${msg.text}</div>
+          </div>
+        `;
+      }
 
       return messageDiv;
     }
 
     function updateMessages(messages) {
       const chatMessages = document.getElementById('chatMessages');
+      const skeletonLoader = chatMessages.querySelector('.skeleton-loader');
       const emptyState = chatMessages.querySelector('.empty-state');
       const typingIndicator = document.getElementById('typingIndicator');
 
-      if (messages.length === 0) {
+      // Remove skeleton loader once data is loaded
+      if (skeletonLoader) {
+        skeletonLoader.remove();
+      }
+
+      if (messages.length === 0 && !isMessagesInitialized) {
         if (!emptyState) {
           const emptyDiv = document.createElement('div');
           emptyDiv.className = 'empty-state';
@@ -898,23 +1036,34 @@
           `;
           chatMessages.appendChild(emptyDiv);
         }
-        if (preambleElement) preambleElement.remove();
-        preambleElement = null;
-        isMessagesInitialized = false;
+        
+        // Add preamble even when there are no messages
+        if (!preambleElement) {
+          const preamble = {
+            author: 'Ron Asnahon',
+            text: 'Welcome to this pilot testing session for our Information, Education, and Communication (IEC) program. To ensure a productive and respectful environment, we kindly request that all participants maintain the highest standards of professionalism in their communications. This includes using appropriate language, remaining on-topic, respecting diverse viewpoints, and avoiding any form of harassment or disruptive behavior. Your cooperation is essential to the success of this initiative. Thank you for your participation.',
+            timestamp: Date.now()
+          };
+          preambleElement = createMessageElement(preamble, false, true);
+          chatMessages.insertBefore(preambleElement, emptyState);
+        }
+        
+        isMessagesInitialized = true;
         lastMessageCount = 0;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
         return;
       }
 
       if (emptyState) emptyState.remove();
 
       if (!isMessagesInitialized) {
-        // Add preamble once
+        // Add preamble once at the beginning
         const preamble = {
           author: 'Ron Asnahon',
           text: 'Welcome to this pilot testing session for our Information, Education, and Communication (IEC) program. To ensure a productive and respectful environment, we kindly request that all participants maintain the highest standards of professionalism in their communications. This includes using appropriate language, remaining on-topic, respecting diverse viewpoints, and avoiding any form of harassment or disruptive behavior. Your cooperation is essential to the success of this initiative. Thank you for your participation.',
           timestamp: Date.now()
         };
-        preambleElement = createMessageElement(preamble, false);
+        preambleElement = createMessageElement(preamble, false, true);
         chatMessages.appendChild(preambleElement);
 
         // Add all existing messages
@@ -1087,10 +1236,26 @@
       confirmModal.classList.remove('active');
       try {
         const roomRef = doc(db, 'rooms', roomCode);
-        await updateDoc(roomRef, {
-          participants: arrayRemove(currentUser),
-          typing: arrayRemove(currentUser)
-        });
+        const roomSnap = await getDoc(roomRef);
+        
+        if (roomSnap.exists()) {
+          const data = roomSnap.data();
+          const participants = data.participants || [];
+          
+          // Check if this is the last participant
+          if (participants.length === 1 && participants.includes(currentUser)) {
+            // Delete the room if this is the last participant
+            await deleteDoc(roomRef);
+            console.log('[v0] Room destroyed - last participant left');
+          } else {
+            // Otherwise just remove the participant
+            await updateDoc(roomRef, {
+              participants: arrayRemove(currentUser),
+              typing: arrayRemove(currentUser)
+            });
+          }
+        }
+        
         localStorage.removeItem(storageKey);
       } catch (error) {
         console.error('Error leaving room:', error);
