@@ -214,6 +214,37 @@
       color: #ffffff;
     }
 
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .typing-indicator .dot {
+      width: 6px;
+      height: 6px;
+      background-color: #5f6368;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .typing-indicator .dot:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+
+    .typing-indicator .dot:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0);
+      }
+      40% {
+        transform: scale(1);
+      }
+    }
+
     .empty-state {
       flex: 1;
       display: flex;
@@ -709,6 +740,10 @@
 
     let roomData = null;
     let lastMessageCount = 0;
+    let typingTimeout = null;
+    let isTyping = false;
+    let isMessagesInitialized = false;
+    let preambleElement = null;
 
     // Toast function
     function showToast(message, type = 'error', duration = 3000) {
@@ -775,6 +810,7 @@
               const data = doc.data();
               updateParticipants(data.participants || []);
               updateMessages(data.messages || []);
+              updateTypingIndicator(data.typing || []);
             }
           });
         } else {
@@ -849,24 +885,105 @@
 
     function updateMessages(messages) {
       const chatMessages = document.getElementById('chatMessages');
-      chatMessages.innerHTML = '';
+      const emptyState = chatMessages.querySelector('.empty-state');
+      const typingIndicator = document.getElementById('typingIndicator');
 
-      // Add preamble if no messages or always as first
-      const preamble = {
-        author: 'Ron Asnahon',
-        text: 'Welcome to this pilot testing session for our Information, Education, and Communication (IEC) program. To ensure a productive and respectful environment, we kindly request that all participants maintain the highest standards of professionalism in their communications. This includes using appropriate language, remaining on-topic, respecting diverse viewpoints, and avoiding any form of harassment or disruptive behavior. Your cooperation is essential to the success of this initiative. Thank you for your participation.',
-        timestamp: Date.now()
-      };
-      chatMessages.appendChild(createMessageElement(preamble, false));
+      if (messages.length === 0) {
+        if (!emptyState) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'empty-state';
+          emptyDiv.innerHTML = `
+            <span class="material-icons">chat_bubble_outline</span>
+            <div class="empty-state-text">No messages yet. Start the conversation!</div>
+          `;
+          chatMessages.appendChild(emptyDiv);
+        }
+        if (preambleElement) preambleElement.remove();
+        preambleElement = null;
+        isMessagesInitialized = false;
+        lastMessageCount = 0;
+        return;
+      }
 
-      // Add actual messages
-      messages.forEach(msg => {
-        const isOwnMessage = msg.author === currentUser;
-        chatMessages.appendChild(createMessageElement(msg, isOwnMessage));
-      });
+      if (emptyState) emptyState.remove();
+
+      if (!isMessagesInitialized) {
+        // Add preamble once
+        const preamble = {
+          author: 'Ron Asnahon',
+          text: 'Welcome to this pilot testing session for our Information, Education, and Communication (IEC) program. To ensure a productive and respectful environment, we kindly request that all participants maintain the highest standards of professionalism in their communications. This includes using appropriate language, remaining on-topic, respecting diverse viewpoints, and avoiding any form of harassment or disruptive behavior. Your cooperation is essential to the success of this initiative. Thank you for your participation.',
+          timestamp: Date.now()
+        };
+        preambleElement = createMessageElement(preamble, false);
+        chatMessages.appendChild(preambleElement);
+
+        // Add all existing messages
+        messages.forEach(msg => {
+          const isOwnMessage = msg.author === currentUser;
+          chatMessages.appendChild(createMessageElement(msg, isOwnMessage));
+        });
+        lastMessageCount = messages.length;
+        isMessagesInitialized = true;
+      } else if (messages.length > lastMessageCount) {
+        // Append only new messages
+        for (let i = lastMessageCount; i < messages.length; i++) {
+          const msg = messages[i];
+          const isOwnMessage = msg.author === currentUser;
+          chatMessages.appendChild(createMessageElement(msg, isOwnMessage));
+        }
+        lastMessageCount = messages.length;
+      }
+
+      // Ensure typing indicator is at the end if present
+      if (typingIndicator) {
+        chatMessages.appendChild(typingIndicator);
+      }
 
       chatMessages.scrollTop = chatMessages.scrollHeight;
-      lastMessageCount = messages.length;
+    }
+
+    function updateTypingIndicator(typingUsers) {
+      let indicator = document.getElementById('typingIndicator');
+      const chatMessages = document.getElementById('chatMessages');
+      const othersTyping = typingUsers.filter(u => u !== currentUser);
+
+      if (othersTyping.length > 0) {
+        let text;
+        if (othersTyping.length === 1) {
+          text = `${othersTyping[0]} is typing`;
+        } else if (othersTyping.length === 2) {
+          text = `${othersTyping.join(' and ')} are typing`;
+        } else {
+          text = 'Several people are typing';
+        }
+
+        if (!indicator) {
+          indicator = document.createElement('div');
+          indicator.id = 'typingIndicator';
+          indicator.className = 'message-group other-message';
+          indicator.innerHTML = `
+            <div class="message-avatar" style="visibility: hidden;"></div>
+            <div class="message-content">
+              <div class="message-text typing-indicator">
+                ${text}
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
+            </div>
+          `;
+          chatMessages.appendChild(indicator);
+        } else {
+          indicator.querySelector('.typing-indicator').innerHTML = `
+            ${text}
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          `;
+        }
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      } else {
+        if (indicator) {
+          indicator.remove();
+        }
+      }
     }
 
     const chatInput = document.getElementById('chatInput');
@@ -875,7 +992,19 @@
 
     chatInput.addEventListener('input', () => {
       sendMessageBtn.disabled = !chatInput.value.trim();
+
+      if (chatInput.value.trim()) {
+        if (!isTyping) {
+          startTyping();
+        }
+        if (typingTimeout) clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(stopTyping, 3000);
+      } else {
+        stopTyping();
+      }
     });
+
+    chatInput.addEventListener('blur', stopTyping);
 
     chatInput.addEventListener('focus', () => {
       setTimeout(() => {
@@ -883,9 +1012,37 @@
       }, 200);
     });
 
+    async function startTyping() {
+      isTyping = true;
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        await updateDoc(roomRef, {
+          typing: arrayUnion(currentUser)
+        });
+      } catch (e) {
+        console.error('Error starting typing:', e);
+      }
+    }
+
+    async function stopTyping() {
+      if (!isTyping) return;
+      isTyping = false;
+      if (typingTimeout) clearTimeout(typingTimeout);
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        await updateDoc(roomRef, {
+          typing: arrayRemove(currentUser)
+        });
+      } catch (e) {
+        console.error('Error stopping typing:', e);
+      }
+    }
+
     async function sendMessage() {
       const message = chatInput.value.trim();
       if (!message) return;
+
+      stopTyping();
 
       try {
         const roomRef = doc(db, 'rooms', roomCode);
@@ -931,7 +1088,8 @@
       try {
         const roomRef = doc(db, 'rooms', roomCode);
         await updateDoc(roomRef, {
-          participants: arrayRemove(currentUser)
+          participants: arrayRemove(currentUser),
+          typing: arrayRemove(currentUser)
         });
         localStorage.removeItem(storageKey);
       } catch (error) {
