@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inner Leaf - Purpose</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Google Sans Text', 'Google Sans', sans-serif;
+      background-color: #ffffff;
+      color: #202124;
+      line-height: 1.6;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .google-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .google-logo img {
+      height: 24px;
+      width: auto;
+    }
+    
+    .site-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #5f6368;
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: #5f6368;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    
+    nav a:hover {
+      color: #4F8372;
+    }
+    
+    nav a.active {
+      color: #4F8372;
+      border-bottom: 3px solid #4F8372;
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      transition: background-color 0.2s;
+    }
+    
+    .icon-button:hover {
+      background-color: #f1f3f4;
+    }
+    
+    .subscribe-btn {
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .subscribe-btn:hover {
+      background-color: #3d6659;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+    
+    .breadcrumb a {
+      color: #4F8372;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+    
+    .breadcrumb a:hover {
+      opacity: 0.7;
+    }
+    
+    .breadcrumb span {
+      color: #5f6368;
+    }
+    
+    .breadcrumb .material-icons {
+      font-size: 18px;
+    }
+    
+    .article-header {
+      max-width: 800px;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: #202124;
+    }
+    
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      color: #5f6368;
+      font-size: 14px;
+    }
+    
+    .article-subtitle {
+      font-size: 18px;
+      color: #5f6368;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    
+    .author-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e8eaed;
+    }
+    
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #ea4335;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    
+    .author-details h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 2px;
+    }
+    
+    .author-details p {
+      font-size: 14px;
+      color: #5f6368;
+    }
+    
+    .share-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: #5f6368;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    
+    .share-button:hover {
+      background-color: #f1f3f4;
+    }
+    
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 9/16;
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: #000;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+      color: white;
+      z-index: 10;
+    }
+    
+    .video-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .video-branding {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .video-branding img {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .content-section {
+      max-width: 800px;
+      margin: 0 auto 80px;
+    }
+    
+    .content-section h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 24px;
+    }
+    
+    .content-section h3 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 16px;
+      margin-top: 40px;
+    }
+    
+    .content-section p {
+      font-size: 16px;
+      color: #5f6368;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    
+    .content-section ul {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    
+    .content-section ul li {
+      font-size: 16px;
+      color: #5f6368;
+      margin-bottom: 20px;
+      padding-left: 32px;
+      position: relative;
+      line-height: 1.8;
+    }
+    
+    .content-section ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #4F8372;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    
+    .content-section ul li strong {
+      color: #202124;
+      font-weight: 500;
+    }
+    
+    .icon-list {
+      display: flex;
+      gap: 32px;
+      margin: 32px 0;
+      flex-wrap: wrap;
+    }
+    
+    .icon-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #5f6368;
+      font-size: 16px;
+      padding: 12px 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+    
+    .icon-item:hover {
+      background-color: #B8D8C4;
+    }
+    
+    .icon-item .material-icons {
+      color: #4F8372;
+      font-size: 28px;
+    }
+    
+    .quote {
+      background-color: #B8D8C4;
+      padding: 32px;
+      border-radius: 12px;
+      margin: 40px 0;
+      font-size: 20px;
+      font-style: italic;
+      color: #202124;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background-color: #4F8372;
+      color: white;
+      padding: 14px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      margin-top: 16px;
+      transition: background-color 0.2s;
+    }
+    
+    .cta-button:hover {
+      background-color: #3d6659;
+    }
+    
+    .source {
+      font-size: 14px;
+      color: #5f6368;
+      font-style: italic;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #e8eaed;
+    }
+    
+    .highlight-box {
+      background-color: #f8f9fa;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 32px 0;
+      border-left: 4px solid #4F8372;
+    }
+    
+    .highlight-box p {
+      margin-bottom: 12px;
+    }
+    
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    footer {
+      background-color: #f8f9fa;
+      padding: 24px;
+      text-align: center;
+      color: #5f6368;
+      font-size: 14px;
+      border-top: 1px solid #e8eaed;
+    }
+    
+    @media (max-width: 968px) {
+      nav {
+        gap: 20px;
+      }
+      
+      nav a {
+        font-size: 13px;
+      }
+      
+      .header-actions {
+        gap: 8px;
+      }
+      
+      .subscribe-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 16px;
+      }
+      
+      .site-title {
+        font-size: 18px;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .header-actions .icon-button:nth-child(2),
+      .header-actions .icon-button:nth-child(3) {
+        display: none;
+      }
+      
+      main {
+        padding: 24px 16px 60px;
+      }
+      
+      h1 {
+        font-size: 32px;
+      }
+      
+      .article-subtitle {
+        font-size: 16px;
+      }
+      
+      .video-wrapper {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      
+      .content-section {
+        margin-bottom: 60px;
+      }
+      
+      .content-section h2 {
+        font-size: 28px;
+      }
+      
+      .content-section h3 {
+        font-size: 20px;
+      }
+      
+      .icon-list {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .icon-item {
+        width: 100%;
+      }
+      
+      .quote {
+        font-size: 18px;
+        padding: 24px;
+      }
+      
+      footer {
+        padding: 20px 16px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .google-logo img {
+        height: 20px;
+      }
+      
+      .site-title {
+        font-size: 16px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .content-section h2 {
+        font-size: 24px;
+      }
+      
+      .content-section h3 {
+        font-size: 18px;
+      }
+      
+      .content-section p,
+      .content-section ul li {
+        font-size: 15px;
+      }
+    }
+    
+    /* Added smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-section">
+      <a href="#" class="google-logo">
+        <img src="logo.png" alt="Google" height="24">
+      </a>
+      <span class="site-title">Inner Leaf</span>
+    </div>
+    
+    <nav>
+      <a href="index" class="active">Home</a>
+      <a href="#learn">Learn</a>
+      <a href="#open-space">Open Space</a>
+      <a href="#resources">Resources</a>
+    </nav>
+    
+  </header>
+  
+  <main>
+    <div class="article-header">
+      <h1>Your calm corner for study, balance, and mental clarity.</h1>
+      
+      <p class="article-subtitle">College can be tough — deadlines, expectations, and burnout. Here, we help you slow down, breathe, and learn how to study smart while caring for your mental health.</p>
+      
+      <a href="#video" class="cta-button">Watch Our Video and Explore the Open Space</a>
+    </div>
+    
+    <div class="video-container" id="video">
+      <div class="video-wrapper">
+        <div class="video-overlay">
+          <div class="video-title">Mental Health & Study Balance</div>
+          <div class="video-branding">
+            <img src="logo.png" alt="Google Logo" style="width: 24px; height: 24px;">
+            <span>Inner Leaf</span>
+          </div>
+        </div>
+        <video controls>
+          <source src="/IEC.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    
+    <div class="content-section" id="learn">
+      <h2>Know Your Mind</h2>
+      
+      <h3>What is Mental Health?</h3>
+      <p>Mental health is about how you think, feel, and deal with problems on a daily basis — not just about being happy. It's the foundation of how we process emotions, handle stress, build relationships, and make decisions.</p>
+      
+      <div class="icon-list">
+        <div class="icon-item">
+          <span class="material-icons">balance</span>
+          <span>Balance your thoughts</span>
+        </div>
+        <div class="icon-item">
+          <span class="material-icons">self_improvement</span>
+          <span>Manage your stress</span>
+        </div>
+        <div class="icon-item">
+          <span class="material-icons">groups</span>
+          <span>Stay connected</span>
+        </div>
+      </div>
+      
+      <p>Mental health influences how we study, work, and connect with others. Everyone's experience is different — shaped by our emotions, relationships, environment, and personal history. Just like physical health, mental health exists on a spectrum and can change over time.</p>
+      
+      <p>Taking care of our mental health is just as important as caring for our physical health. It's not about being perfect or always feeling positive — it's about building resilience, seeking support when needed, and creating habits that help us thrive. With the right tools, environment, and community, we can all work toward better balance and well-being.</p>
+      
+      <div class="highlight-box">
+        <p><strong>Remember:</strong> Mental health challenges are common, especially among students. Seeking help is a sign of strength, not weakness. You're not alone in this journey.</p>
+      </div>
+      
+      <p class="source">Source: World Health Organization (2024)</p>
+      
+      <h3>Common Causes of Student Stress</h3>
+      <p>College life can feel like a constant balancing act — juggling classes, assignments, social life, and personal responsibilities. It's completely normal to feel overwhelmed at times. Understanding what causes stress is the first step toward managing it effectively.</p>
+      
+      <p>Some of the most common stressors among students include:</p>
+      
+      <ul>
+        <li><strong>Academic Pressure</strong> - Heavy workloads, back-to-back exams, tight deadlines, and the constant pressure to perform well can create anxiety and exhaustion. The fear of failure or not meeting expectations — whether from yourself, family, or professors — adds to the mental load.</li>
+        <li><strong>Relationship Challenges</strong> - Conflicts or misunderstandings with friends, classmates, romantic partners, or family members can deeply affect emotional balance. Feeling isolated, misunderstood, or unsupported can make stress feel even heavier.</li>
+        <li><strong>Financial Strain</strong> - Worrying about daily expenses, tuition fees, rent, bills, and other costs can create constant background stress. For many students, financial insecurity affects not just their budget, but also their mental peace and ability to focus on studies.</li>
+        <li><strong>Self-Imposed Pressure</strong> - Expecting too much from yourself, comparing your progress to others on social media, or feeling like you're not doing enough can lead to burnout, anxiety, or depression. Perfectionism and imposter syndrome are common struggles among high-achieving students.</li>
+        <li><strong>Sleep Deprivation</strong> - Late-night study sessions, endless scrolling through social media, or irregular sleep schedules drain your focus, energy, and emotional resilience. Lack of quality sleep makes it harder to manage stress and can worsen mental health symptoms.</li>
+        <li><strong>Uncertainty About the Future</strong> - Questions about career paths, job prospects, and life after graduation can create anxiety. The pressure to "figure it all out" while still in school can feel overwhelming.</li>
+      </ul>
+      
+      <p>Recognizing these stressors is important — but remember, stress doesn't have to control your life. There are healthy ways to cope, and you don't have to face it alone.</p>
+      
+      <h3>Healthy Coping Habits</h3>
+      <p>Stress is a natural part of student life — but it doesn't have to overwhelm you. Building healthy coping habits can help you manage pressure, protect your mental health, and maintain balance. Here are simple, practical ways to recharge your mind and body:</p>
+      
+      <ul>
+        <li><strong>Prioritize Rest</strong> - Take short breaks between study sessions, nap when your body needs it, and don't feel guilty for resting. Your brain needs recovery time to process information and maintain focus. Quality rest improves memory, creativity, and emotional regulation.</li>
+        <li><strong>Practice Journaling</strong> - Write down your thoughts, emotions, worries, or daily wins. Journaling helps you process what you're feeling, identify patterns in your mood, and track your personal growth over time. It's a safe space to be honest with yourself.</li>
+        <li><strong>Talk to Someone</strong> - Open up to friends, family, mentors, counselors, or support groups. Sharing your struggles lightens the emotional weight and reminds you that you're not alone. Sometimes, just being heard can make a huge difference.</li>
+        <li><strong>Try Deep Breathing</strong> - Practice slow, intentional breathing exercises or short mindfulness breaks. Even one minute of calm, focused breathing can reduce anxiety, lower your heart rate, and help you regain clarity during stressful moments.</li>
+        <li><strong>Move Your Body</strong> - Physical activity releases endorphins, which naturally boost mood and reduce stress. You don't need intense workouts — stretching, walking, jogging, dancing, or yoga all help. Find what feels good for you.</li>
+        <li><strong>Listen to Music</strong> - Play your favorite soothing or uplifting playlist. Music can help reset your emotions, improve focus, and provide comfort during difficult times. Create playlists for different moods — study, relaxation, motivation.</li>
+        <li><strong>Engage in Hobbies</strong> - Do something beyond academics that brings you joy — paint, cook, garden, play games, read for pleasure, or learn a new skill. Hobbies give your mind a break and remind you that you're more than your grades.</li>
+        <li><strong>Go Offline</strong> - Take intentional breaks from screens and social media. Constant connectivity can drain your energy and increase comparison anxiety. Reconnect with the real world — spend time in nature, have face-to-face conversations, or simply enjoy quiet moments.</li>
+        <li><strong>Establish a Routine</strong> - Create a daily structure that includes time for studying, self-care, meals, and sleep. Routines provide stability and reduce decision fatigue, making it easier to manage stress.</li>
+        <li><strong>Seek Professional Help When Needed</strong> - If stress becomes overwhelming or persistent, don't hesitate to reach out to a counselor, therapist, or mental health professional. Asking for help is a courageous and important step toward healing.</li>
+      </ul>
+      
+      <div class="quote">
+        "Self-care isn't selfish — it's essential. You can't pour from an empty cup."
+      </div>
+      
+      <h3>Study Smart Tips</h3>
+      <p>Studying doesn't have to mean burnout. Working smarter, not harder, helps you retain information better, stay focused longer, and protect your mental health. These evidence-based strategies can transform how you approach learning:</p>
+      
+      <ul>
+        <li><strong>Pomodoro Technique</strong> - Study for 25 minutes with full focus, then take a 5-minute break. After four rounds, reward yourself with a longer 15-30 minute rest. This method prevents mental fatigue, maintains concentration, and makes large tasks feel more manageable.</li>
+        <li><strong>Time-Blocking</strong> - Schedule specific hours for studying, resting, meals, exercise, and personal time. Visualizing your day helps you balance productivity with wellness. Use planners, calendars, or apps to stay organized and avoid last-minute cramming.</li>
+        <li><strong>Active Note-Taking Methods</strong> - Try techniques like Cornell Notes (divide pages into cues, notes, and summary), Mind Mapping (visual diagrams connecting ideas), or the Feynman Technique (explain concepts in simple terms). Active engagement improves understanding and retention.</li>
+        <li><strong>5-Minute Focus Reset</strong> - When you feel distracted or overwhelmed, pause for five minutes. Stand up, stretch, breathe deeply, look away from screens, and let go of tension. This quick reset clears your mind and boosts concentration for the next study session.</li>
+        <li><strong>Use Study Apps Wisely</strong> - Apps like Notion, Forest, Todoist, Anki, or Quizlet can keep you organized, focused, and motivated. However, remember they're tools to support learning — not distractions or substitutes for actual studying. Set boundaries to avoid app overload.</li>
+        <li><strong>Study in Intervals, Not Marathons</strong> - Avoid long, exhausting study sessions. Break material into smaller chunks and spread learning over multiple days. Spaced repetition (reviewing material at increasing intervals) significantly improves long-term retention.</li>
+        <li><strong>Create a Dedicated Study Space</strong> - Designate a specific area for studying — ideally quiet, well-lit, and free from distractions. Your brain will associate this space with focus and productivity, making it easier to get into "study mode."</li>
+        <li><strong>Teach What You Learn</strong> - Explaining concepts to others (or even to yourself out loud) reinforces understanding and reveals gaps in knowledge. Study groups or teaching sessions can make learning more interactive and enjoyable.</li>
+        <li><strong>Know When to Stop</strong> - Productivity is about consistency and quality, not exhaustion. If you're too tired to focus, continuing won't help. Rest when your body or mind says so — tomorrow's fresh start will be more effective than tonight's burnout.</li>
+        <li><strong>Celebrate Small Wins</strong> - Acknowledge your progress, no matter how small. Finished a chapter? Completed an assignment? Showed up even when you didn't feel like it? Celebrate it. Positive reinforcement builds motivation and resilience.</li>
+      </ul>
+      
+      <div class="highlight-box">
+        <p><strong>Pro Tip:</strong> Experiment with different techniques to find what works best for you. Everyone learns differently — honor your unique study style and adjust strategies as needed.</p>
+      </div>
+      
+      <div class="quote">
+        "A healthy mind and body work best when you give them care, not pressure."
+      </div>
+    </div>
+    
+    <div class="content-section" id="open-space">
+      <h2>The Open Space</h2>
+      
+      <p>The Open Space is your safe circle — a supportive student community where you can share stories, exchange study tips, talk about your week, or simply listen to others. This is a judgment-free zone built on empathy, respect, and mutual support.</p>
+      
+      <p>Whether you're celebrating a win, processing a challenge, or just need to vent, this space is here for you. You're not alone in your struggles, and your voice matters.</p>
+      
+      <h3>Community Guidelines</h3>
+      <p>To keep this space safe and supportive for everyone, we ask all members to follow these guidelines:</p>
+      
+      <ul>
+        <li><strong>Respect Privacy</strong> - What's shared here stays here. Don't share others' stories or personal information outside this space without explicit permission.</li>
+        <li><strong>Avoid Triggering Content</strong> - Be mindful when discussing sensitive topics like self-harm, eating disorders, or trauma. Use content warnings when necessary and prioritize everyone's emotional safety.</li>
+        <li><strong>Practice Active Listening</strong> - Listen to understand, not just to respond. Show empathy, validate feelings, and offer support without judgment or unsolicited advice.</li>
+        <li><strong>Be Kind and Respectful</strong> - Treat others the way you want to be treated. No bullying, discrimination, or harmful language. Disagreements are okay, but cruelty is not.</li>
+        <li><strong>Encourage, Don't Diagnose</strong> - Share your experiences and coping strategies, but avoid diagnosing others or giving medical advice. Encourage professional help when appropriate.</li>
+      </ul>
+      
+      <h3>Features & Activities</h3>
+      <ul>
+        <li><strong>Weekly Theme Prompts</strong> - Engage with discussion topics like "How do you recharge after exams?" or "What's one thing you're proud of this week?" These prompts encourage reflection and connection.</li>
+        <li><strong>Peer Support Threads</strong> - Share challenges, ask for advice, or offer encouragement to fellow students navigating similar experiences.</li>
+        <li><strong>Study Accountability Groups</strong> - Find study partners or accountability buddies to help you stay motivated and on track with your goals.</li>
+        <li><strong>Reflection Forms</strong> - Optional anonymous forms where you can share thoughts, feelings, or feedback about your mental health journey.</li>
+        <li><strong>Resource Sharing</strong> - Recommend helpful articles, videos, apps, or techniques that have supported your well-being.</li>
+      </ul>
+      
+      <div class="highlight-box">
+        <p><strong>Remember:</strong> The Open Space is for peer support, not crisis intervention. If you or someone you know is in immediate danger, please contact emergency services or a crisis hotline right away.</p>
+      </div>
+    </div>
+    
+    <div class="content-section" id="resources">
+      <h2>Find Help & Resources</h2>
+      
+      <p>Access a curated collection of resources to support your mental health journey. Whether you need immediate help, educational materials, or tools for self-care, we've gathered trusted resources to guide you.</p>
+      
+      <h3>Available Resources</h3>
+      
+      <ul>
+        <li><strong>Downloadable Guides</strong> - Access free infographics, PDF guides, and worksheets on topics like stress management, study techniques, mindfulness exercises, and mental health basics. Print them, save them, or share them with friends.</li>
+        <li><strong>Emergency Hotlines</strong> - Find 24/7 mental health crisis support contacts, including national suicide prevention lifelines, text-based crisis services, and local counseling centers. Help is always available when you need it most.</li>
+        <li><strong>Articles & Educational Content</strong> - Explore credible mental health blogs, research-backed articles, TED talks, podcasts, and video resources from trusted organizations like WHO, NIMH, and mental health advocacy groups.</li>
+        <li><strong>Recommended Apps</strong> - Discover mental health and wellness apps for meditation (Headspace, Calm), mood tracking (Daylio, Moodfit), therapy access (BetterHelp, Talkspace), and stress relief.</li>
+        <li><strong>Campus Resources</strong> - Learn how to access counseling services, student wellness programs, peer support groups, and academic accommodations available at your school.</li>
+        <li><strong>Self-Care Toolkits</strong> - Download printable self-care checklists, gratitude journals, breathing exercise guides, and coping strategy cards to keep handy during tough times.</li>
+        <li><strong>Feedback & Suggestions</strong> - Share your thoughts with us: "How has this platform helped you? What topics do you want to learn more about? What resources are you looking for?" Your input helps us improve and serve you better.</li>
+      </ul>
+      
+      <div class="highlight-box">
+        <p><strong>Need immediate help?</strong> If you're experiencing a mental health crisis, please reach out to a crisis hotline or emergency services right away. You deserve support, and help is available 24/7.</p>
+      </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Inner Leaf - IEC. All Rights Reserved.</p>
+  </footer>
+  
+  <!-- Added JavaScript for smooth scroll animation -->
+  <script>
+    document.querySelector('.cta-button').addEventListener('click', function(e) {
+      e.preventDefault();
+      const videoSection = document.getElementById('video');
+      videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>
