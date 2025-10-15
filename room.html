@@ -198,10 +198,11 @@
     }
 
     .message-content {
-      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .message-header {
@@ -230,7 +231,9 @@
       border-radius: 8px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       word-wrap: break-word;
-      width: fit-content;
+      word-break: break-word;
+      white-space: pre-wrap;
+      display: inline-block;
       max-width: 100%;
     }
 
@@ -722,6 +725,10 @@
 
       .message-group.preamble-message {
         max-width: 95%;
+      }
+
+      .message-group {
+        max-width: 85%;
       }
     }
   </style>
