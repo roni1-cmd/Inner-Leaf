@@ -400,6 +400,14 @@
       line-height: 1.6;
     }
     
+    /* <CHANGE> Added button group styles for hero CTA buttons */
+    .cta-button-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    
     .cta-button {
       display: inline-block;
       background-color: #4F8372;
@@ -409,13 +417,25 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 16px;
-      margin-top: 16px;
       transition: background-color 0.2s;
+      border: 2px solid #4F8372;
     }
     
     .cta-button:hover {
       background-color: #3d6659;
+      border-color: #3d6659;
     }
+    
+    .cta-button.secondary {
+      background-color: white;
+      color: #4F8372;
+      border: 2px solid #4F8372;
+    }
+    
+    .cta-button.secondary:hover {
+      background-color: #f8f9fa;
+    }
+    /* </CHANGE> */
     
     .source {
       font-size: 14px;
@@ -534,6 +554,17 @@
       footer {
         padding: 20px 16px;
       }
+      
+      /* <CHANGE> Make button group stack on mobile */
+      .cta-button-group {
+        flex-direction: column;
+      }
+      
+      .cta-button {
+        width: 100%;
+        text-align: center;
+      }
+      /* </CHANGE> */
     }
     
     @media (max-width: 480px) {
@@ -593,7 +624,10 @@
       
       <p class="article-subtitle">College can be tough — deadlines, expectations, and burnout. Here, we help you slow down, breathe, and learn how to study smart while caring for your mental health.</p>
       
-      <a href="#video" class="cta-button">Watch Our Video and Explore the Open Space</a>
+      <div class="cta-button-group">
+        <a href="index" class="cta-button">Explore Our Rooms</a>
+        <a href="#video" class="cta-button secondary">Watch Our Video</a>
+      </div>
     </div>
     
     <div class="video-container" id="video">
@@ -606,7 +640,7 @@
           </div>
         </div>
         <video controls>
-          <source src="/IEC (1).mp4" type="video/mp4">
+          <source src="/IEC.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
@@ -711,7 +745,7 @@
       
       <p>Whether you're celebrating a win, processing a challenge, or just need to vent, this space is here for you. You're not alone in your struggles, and your voice matters.</p>
       
-     <div style="margin: 32px 0; text-align: center;">
+      <div style="margin: 32px 0; text-align: center;">
         <a href="room.html" class="cta-button">Explore Our Rooms</a>
       </div>
       
@@ -760,19 +794,28 @@
       <div class="highlight-box">
         <p><strong>Need immediate help?</strong> If you're experiencing a mental health crisis, please reach out to a crisis hotline or emergency services right away. You deserve support, and help is available 24/7.</p>
       </div>
+    </div>
   </main>
   
   <footer>
     <p>&copy; 2025 Inner Leaf - IEC. All Rights Reserved.</p>
   </footer>
   
-   Added JavaScript for smooth scroll animation 
   <script>
-    document.querySelector('.cta-button').addEventListener('click', function(e) {
-      e.preventDefault();
-      const videoSection = document.getElementById('video');
-      videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // <CHANGE> Updated smooth scroll to work with secondary button
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      });
     });
+    // </CHANGE> 
   </script>
 </body>
 </html>
