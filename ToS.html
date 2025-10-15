@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - Inner Leaf</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Google Sans Text', 'Google Sans', sans-serif;
+      background-color: #ffffff;
+      color: #202124;
+      line-height: 1.6;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .google-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .google-logo img {
+      height: 24px;
+      width: auto;
+    }
+    
+    .site-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #5f6368;
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: #5f6368;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    
+    nav a:hover {
+      color: #4F8372;
+    }
+    
+    nav a.active {
+      color: #4F8372;
+      border-bottom: 3px solid #4F8372;
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      transition: background-color 0.2s;
+    }
+    
+    .icon-button:hover {
+      background-color: #f1f3f4;
+    }
+    
+    .subscribe-btn {
+      background-color: #4F8372;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .subscribe-btn:hover {
+      background-color: #3d6659;
+    }
+    
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+    
+    .breadcrumb a {
+      color: #4F8372;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+    
+    .breadcrumb a:hover {
+      opacity: 0.7;
+    }
+    
+    .breadcrumb span {
+      color: #5f6368;
+    }
+    
+    .breadcrumb .material-icons {
+      font-size: 18px;
+    }
+    
+    h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: #202124;
+    }
+    
+    .last-updated {
+      color: #5f6368;
+      font-size: 14px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e8eaed;
+    }
+    
+    .intro-text {
+      font-size: 18px;
+      color: #5f6368;
+      margin-bottom: 48px;
+      line-height: 1.8;
+    }
+    
+    .content-section {
+      margin-bottom: 48px;
+    }
+    
+    .content-section h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 20px;
+      margin-top: 48px;
+    }
+    
+    .content-section h3 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 16px;
+      margin-top: 32px;
+    }
+    
+    .content-section p {
+      font-size: 16px;
+      color: #5f6368;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    
+    .content-section ul,
+    .content-section ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    
+    .content-section ul li,
+    .content-section ol li {
+      font-size: 16px;
+      color: #5f6368;
+      margin-bottom: 12px;
+      line-height: 1.8;
+    }
+    
+    .content-section ul li strong,
+    .content-section ol li strong {
+      color: #202124;
+      font-weight: 500;
+    }
+    
+    .highlight-box {
+      background-color: #B8D8C4;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 32px 0;
+      border-left: 4px solid #4F8372;
+    }
+    
+    .highlight-box p {
+      margin-bottom: 12px;
+      color: #202124;
+    }
+    
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .info-box {
+      background-color: #f8f9fa;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 32px 0;
+      border-left: 4px solid #A9CDB6;
+    }
+    
+    .info-box p {
+      margin-bottom: 12px;
+    }
+    
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .contact-link {
+      color: #4F8372;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    
+    .contact-link:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+    
+    footer {
+      background-color: #f8f9fa;
+      padding: 24px;
+      text-align: center;
+      color: #5f6368;
+      font-size: 14px;
+      border-top: 1px solid #e8eaed;
+    }
+    
+    @media (max-width: 968px) {
+      nav {
+        gap: 20px;
+      }
+      
+      nav a {
+        font-size: 13px;
+      }
+      
+      .header-actions {
+        gap: 8px;
+      }
+      
+      .subscribe-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 16px;
+      }
+      
+      .site-title {
+        font-size: 18px;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .header-actions .icon-button:nth-child(2),
+      .header-actions .icon-button:nth-child(3) {
+        display: none;
+      }
+      
+      main {
+        padding: 24px 16px 60px;
+      }
+      
+      h1 {
+        font-size: 36px;
+      }
+      
+      .intro-text {
+        font-size: 16px;
+      }
+      
+      .content-section h2 {
+        font-size: 28px;
+      }
+      
+      .content-section h3 {
+        font-size: 20px;
+      }
+      
+      footer {
+        padding: 20px 16px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .google-logo img {
+        height: 20px;
+      }
+      
+      .site-title {
+        font-size: 16px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .content-section h2 {
+        font-size: 24px;
+      }
+      
+      .content-section h3 {
+        font-size: 18px;
+      }
+      
+      .content-section p,
+      .content-section ul li,
+      .content-section ol li {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-section">
+      <a href="index.html" class="google-logo">
+        <img src="logo.png" alt="Google Logo" style="width: auto; height: 24px;">
+      </a>
+      <span class="site-title">Inner Leaf</span>
+    </div>
+    
+    <nav>
+     <a href="index" class="active">Home</a>
+      <a href="#learn">Learn</a>
+      <a href="#open-space">Open Space</a>
+      <a href="#resources">Resources</a>
+    </nav>
+    
+  </header>
+  
+  <main>
+    <div class="breadcrumb">
+      <a href="index">
+        <span class="material-icons">home</span>
+      </a>
+      <span class="material-icons">chevron_right</span>
+      <span>TERMS OF SERVICE</span>
+    </div>
+    
+    <h1>Terms of Service</h1>
+    
+    <p class="last-updated">Last Updated: October 15, 2025</p>
+    
+    <p class="intro-text">Welcome to our mental health and student wellness platform. By accessing or using our services, you agree to be bound by these Terms of Service. Please read them carefully before using our platform.</p>
+    
+    <div class="content-section">
+      <h2>1. Acceptance of Terms</h2>
+      
+      <p>By accessing and using this platform, you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these Terms of Service, please do not use our platform.</p>
+      
+      <p>We reserve the right to update, change, or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our platform following the posting of any changes constitutes acceptance of those changes.</p>
+      
+      <div class="highlight-box">
+        <p><strong>Important:</strong> These terms apply to all users of the platform, including but not limited to students, educators, counselors, and visitors who access our content and services.</p>
+      </div>
+    </div>
+    
+    <div class="content-section">
+      <h2>2. Platform Purpose and Scope</h2>
+      
+      <p>This platform is designed to provide educational resources, peer support, and mental health information specifically for students. Our services include:</p>
+      
+      <ul>
+        <li>Educational content about mental health, stress management, and study techniques</li>
+        <li>Community forums and discussion spaces for peer support</li>
+        <li>Access to curated mental health resources and crisis hotlines</li>
+        <li>Tools and guides for self-care and wellness</li>
+        <li>Information about professional mental health services</li>
+      </ul>
+      
+      <p>Our platform is intended to complement, not replace, professional mental health care. We strongly encourage users experiencing mental health crises or persistent symptoms to seek help from qualified mental health professionals.</p>
+      
+      <div class="info-box">
+        <p><strong>Disclaimer:</strong> This platform does not provide medical advice, diagnosis, or treatment. The content is for informational and educational purposes only and should not be considered a substitute for professional medical advice, diagnosis, or treatment.</p>
+      </div>
+    </div>
+    
+    <div class="content-section">
+      <h2>3. User Eligibility and Account Responsibilities</h2>
+      
+      <h3>3.1 Age Requirements</h3>
+      <p>You must be at least 13 years old to use this platform. If you are under 18, you should review these terms with a parent or guardian to ensure you understand them. Users under 18 may need parental consent depending on local laws.</p>
+      
+      <h3>3.2 Account Security</h3>
+      <p>If you create an account on our platform, you are responsible for:</p>
+      
+      <ul>
+        <li>Maintaining the confidentiality of your account credentials</li>
+        <li>All activities that occur under your account</li>
+        <li>Notifying us immediately of any unauthorized use of your account</li>
+        <li>Ensuring your account information is accurate and up-to-date</li>
+      </ul>
+      
+      <h3>3.3 Prohibited Conduct</h3>
+      <p>You agree not to use the platform to:</p>
+      
+      <ul>
+        <li>Harass, bully, threaten, or harm other users</li>
+        <li>Share false, misleading, or harmful information</li>
+        <li>Violate any applicable laws or regulations</li>
+        <li>Impersonate others or misrepresent your identity</li>
+        <li>Share explicit, violent, or inappropriate content</li>
+        <li>Attempt to gain unauthorized access to our systems</li>
+        <li>Collect or harvest personal information from other users</li>
+        <li>Spam, advertise, or promote commercial activities without permission</li>
+      </ul>
+    </div>
+    
+    <div class="content-section">
+      <h2>4. Community Guidelines and User Content</h2>
+      
+      <h3>4.1 Community Standards</h3>
+      <p>Our platform is built on respect, empathy, and support. All users must adhere to our community guidelines, which include:</p>
+      
+      <ul>
+        <li>Treating others with kindness and respect</li>
+        <li>Respecting privacy and confidentiality</li>
+        <li>Avoiding triggering or harmful content without appropriate warnings</li>
+        <li>Refraining from giving medical advice or diagnosing others</li>
+        <li>Encouraging professional help when appropriate</li>
+      </ul>
+      
+      <h3>4.2 User-Generated Content</h3>
+      <p>When you post, share, or submit content on our platform, you grant us a non-exclusive, worldwide, royalty-free license to use, display, reproduce, and distribute that content for the purpose of operating and improving our services.</p>
+      
+      <p>You retain ownership of your content, but you represent and warrant that:</p>
+      
+      <ul>
+        <li>You own or have the necessary rights to the content you share</li>
+        <li>Your content does not violate any third-party rights</li>
+        <li>Your content complies with these Terms of Service</li>
+      </ul>
+      
+      <h3>4.3 Content Moderation</h3>
+      <p>We reserve the right to review, monitor, edit, or remove any user content that violates these terms or our community guidelines. However, we are not obligated to monitor all content and cannot guarantee the accuracy or appropriateness of user-generated content.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>5. Privacy and Data Protection</h2>
+      
+      <p>Your privacy is important to us. Our collection, use, and protection of your personal information is governed by our Privacy Policy, which is incorporated into these Terms of Service by reference.</p>
+      
+      <p>Key privacy principles include:</p>
+      
+      <ul>
+        <li>We collect only the information necessary to provide our services</li>
+        <li>We do not sell your personal information to third parties</li>
+        <li>We implement security measures to protect your data</li>
+        <li>You have rights to access, correct, or delete your personal information</li>
+        <li>We comply with applicable data protection laws and regulations</li>
+      </ul>
+      
+      <div class="highlight-box">
+        <p><strong>Confidentiality Note:</strong> While we strive to maintain user privacy, please remember that information shared in public forums or community spaces may be visible to other users. Exercise caution when sharing personal or sensitive information.</p>
+      </div>
+    </div>
+    
+    <div class="content-section">
+      <h2>6. Intellectual Property Rights</h2>
+      
+      <p>All content on this platform, including text, graphics, logos, images, videos, software, and other materials, is the property of our organization or our content suppliers and is protected by copyright, trademark, and other intellectual property laws.</p>
+      
+      <p>You may:</p>
+      
+      <ul>
+        <li>Access and view content for personal, non-commercial use</li>
+        <li>Download and print materials for educational purposes</li>
+        <li>Share links to our content with proper attribution</li>
+      </ul>
+      
+      <p>You may not:</p>
+      
+      <ul>
+        <li>Reproduce, distribute, or modify our content without permission</li>
+        <li>Use our content for commercial purposes</li>
+        <li>Remove copyright or proprietary notices from materials</li>
+        <li>Create derivative works based on our content</li>
+      </ul>
+    </div>
+    
+    <div class="content-section">
+      <h2>7. Third-Party Links and Services</h2>
+      
+      <p>Our platform may contain links to third-party websites, resources, or services that are not owned or controlled by us. These links are provided for your convenience and information.</p>
+      
+      <p>We are not responsible for:</p>
+      
+      <ul>
+        <li>The content, privacy policies, or practices of third-party sites</li>
+        <li>Any damages or losses caused by your use of third-party services</li>
+        <li>The availability or accuracy of external resources</li>
+      </ul>
+      
+      <p>We encourage you to review the terms and privacy policies of any third-party sites you visit.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>8. Disclaimers and Limitations of Liability</h2>
+      
+      <h3>8.1 No Medical Advice</h3>
+      <p>This platform provides general information about mental health and wellness. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of qualified health providers with any questions you may have regarding a medical or mental health condition.</p>
+      
+      <h3>8.2 Platform Availability</h3>
+      <p>We strive to maintain continuous availability of our platform, but we do not guarantee uninterrupted or error-free service. We may suspend or terminate services for maintenance, updates, or other reasons without prior notice.</p>
+      
+      <h3>8.3 Limitation of Liability</h3>
+      <p>To the fullest extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from:</p>
+      
+      <ul>
+        <li>Your use or inability to use our platform</li>
+        <li>Any unauthorized access to or use of our servers</li>
+        <li>Any interruption or cessation of transmission to or from our platform</li>
+        <li>Any bugs, viruses, or other harmful code transmitted through our platform</li>
+        <li>Any errors or omissions in content or materials</li>
+        <li>User content or conduct of third parties on the platform</li>
+      </ul>
+      
+      <div class="info-box">
+        <p><strong>Emergency Situations:</strong> If you are experiencing a mental health crisis or emergency, please contact emergency services (911 in the US) or a crisis hotline immediately. Our platform is not equipped to handle emergency situations.</p>
+      </div>
+    </div>
+    
+    <div class="content-section">
+      <h2>9. Indemnification</h2>
+      
+      <p>You agree to indemnify, defend, and hold harmless our organization, its officers, directors, employees, agents, and affiliates from and against any claims, liabilities, damages, losses, and expenses, including reasonable legal fees, arising out of or in any way connected with:</p>
+      
+      <ul>
+        <li>Your access to or use of the platform</li>
+        <li>Your violation of these Terms of Service</li>
+        <li>Your violation of any third-party rights</li>
+        <li>Any content you post or share on the platform</li>
+      </ul>
+    </div>
+    
+    <div class="content-section">
+      <h2>10. Termination</h2>
+      
+      <p>We reserve the right to suspend or terminate your access to the platform at any time, with or without cause, and with or without notice, for any reason including but not limited to:</p>
+      
+      <ul>
+        <li>Violation of these Terms of Service</li>
+        <li>Violation of community guidelines</li>
+        <li>Engaging in harmful or disruptive behavior</li>
+        <li>Fraudulent or illegal activity</li>
+        <li>At your request</li>
+      </ul>
+      
+      <p>Upon termination, your right to use the platform will immediately cease. All provisions of these Terms of Service that by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, and limitations of liability.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>11. Governing Law and Dispute Resolution</h2>
+      
+      <p>These Terms of Service shall be governed by and construed in accordance with the laws of the jurisdiction in which our organization operates, without regard to its conflict of law provisions.</p>
+      
+      <p>Any disputes arising from or relating to these terms or your use of the platform shall be resolved through:</p>
+      
+      <ol>
+        <li>Good faith negotiation between the parties</li>
+        <li>Mediation, if negotiation is unsuccessful</li>
+        <li>Binding arbitration or litigation in the appropriate jurisdiction, as a last resort</li>
+      </ol>
+    </div>
+    
+    <div class="content-section">
+      <h2>12. Changes to Terms of Service</h2>
+      
+      <p>We reserve the right to modify or replace these Terms of Service at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect.</p>
+      
+      <p>What constitutes a material change will be determined at our sole discretion. By continuing to access or use our platform after revisions become effective, you agree to be bound by the revised terms.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>13. Severability</h2>
+      
+      <p>If any provision of these Terms of Service is found to be unenforceable or invalid under any applicable law, such unenforceability or invalidity shall not render these Terms of Service unenforceable or invalid as a whole. Such provisions shall be deleted without affecting the remaining provisions.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>14. Contact Information</h2>
+      
+      <p>If you have any questions, concerns, or feedback about these Terms of Service or our platform, please contact us:</p>
+      
+      <div class="info-box">
+        <p><strong>Email:</strong> <a href="mailto:support@mentalhealth-platform.org" class="contact-link">support@mentalhealth-platform.org</a></p>
+        <p><strong>Support Portal:</strong> <a href="#" class="contact-link">help.mentalhealth-platform.org</a></p>
+        <p><strong>Response Time:</strong> We aim to respond to all inquiries within 48 hours during business days.</p>
+      </div>
+    </div>
+    
+    <div class="content-section">
+      <h2>15. Acknowledgment</h2>
+      
+      <p>By using this platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. You also acknowledge that these terms constitute a legally binding agreement between you and our organization.</p>
+      
+      <div class="highlight-box">
+        <p><strong>Thank you for being part of our community.</strong> We are committed to providing a safe, supportive, and helpful platform for student mental health and wellness. Your well-being matters, and we're here to support your journey.</p>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Inner Leaf - IEC. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
